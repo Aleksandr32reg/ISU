@@ -1,4 +1,4 @@
-function path = BFS(start, finish, Blocks)
+function path = BFS(start, finish, Blocks, Gates)
     queue = yeszeros(start);
     while isempty(queue)==0
         path = queue(1,:) ;
@@ -6,21 +6,21 @@ function path = BFS(start, finish, Blocks)
         path = nozeros(path);
         node = [path(size(path,2)-1), path(size(path,2))];
         if node == finish
-%             check = [1 1 1];
-%             for i = 2:2:size(path)
-%                 if [path(i-1) path(i)] == Gates(1,:)
-%                         check(1) = 0;
-%                 end
-%                 if [path(i-1) path(i)] == Gates(2,:)
-%                         check(2) = 0;
-%                 end
-%                 if [path(i-1) path(i)] == Gates(3,:)
-%                         check(3) = 0;
-%                 end
-%             end
-%             if isempty(nozeros(check))
+            check = [1 1 1];
+            for i = 1:2:size(path,2)
+                if isequal([path(i) path(i+1)], Gates(1,:))
+                        check(1) = 0;
+                end
+                if isequal([path(i) path(i+1)], Gates(2,:))
+                        check(2) = 0;
+                end
+                if isequal([path(i) path(i+1)], Gates(3,:))
+                        check(3) = 0;
+                end
+            end
+            if isempty(nozeros(check))
                 queue = [];
-%             end
+            end
         else
             adjacent_indices = get_adjacent_indices(node(1), node(2), 4, 4);
             row_power = sum(abs(adjacent_indices'));
